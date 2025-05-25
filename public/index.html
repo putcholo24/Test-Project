@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Contact List</title>
+      <link rel="stylesheet" href="style.css" />
+  </head>
+<body>
+  <main class="rectangle-25" role="main" aria-labelledby="contact-title">
+    <h1 id="contact-title" class="property-portfolio-1">Contact List</h1>
+    <p class="here-is-your-summary-5">Here is your summary</p>
+
+    <ul id="contact-list" aria-live="polite" aria-label="List of contacts"></ul>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchContacts();
+    });
+
+    async function fetchContacts() {
+      try 
+      {
+        const response = await fetch('/api/contacts');
+        
+        if (!response.ok) 
+        {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const contacts = await response.json();
+        const contactList = document.getElementById('contact-list');
+        contactList.innerHTML = '';
+
+        contacts.forEach(contact => {
+        const listItem = document.createElement('li');
+        listItem.className = 'user-profile-5';
+        listItem.textContent = `${contact.name} (${contact.email})`;
+        contactList.appendChild(listItem);
+        });
+      } 
+      
+      catch (error) 
+      {
+        console.error('Failed to load contacts:', error);
+      }
+    }
+  </script>
+
+</body>
+</html>
