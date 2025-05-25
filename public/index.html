@@ -5,29 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact Dashboard</title>
     <link rel="stylesheet" href="style.css" />
-  </head>
+</head>
 <body>
-
-  <div class="app-container">
+  <div class="container">
     <aside class="sidebar">
-      <div class="nav-item active">User profile</div>
-      <div class="nav-item">Text</div>
-      <div class="nav-item">Legal</div>
-      <div class="nav-item">Disclaimer</div>
+      <div class="nav-item active"><span class="icon user-icon"></span> User profile</div>
+      <div class="nav-item"><span class="icon text-icon"></span> Text</div>
+      <div class="nav-item"><span class="icon legal-icon"></span> Legal</div>
+      <div class="nav-item"><span class="icon disclaimer-icon"></span> Disclaimer</div>
     </aside>
-
-    <main class="main-content">
-      <header class="main-header">
-        <div>
+    
+    <main class="content">
+      <header class="header">
+        <div class="title-block">
           <h1>Contacts</h1>
-          <p class="subtext">Here is your summary</p>
+          <p class="subtitle">Here is your summary</p>
         </div>
-        <div class="search-controls">
-          <input type="text" placeholder="Search" />
+        <div class="search-block">
+          <span class="icon filter-icon"></span>
+          <span class="icon toggle-icon"></span>
+          <input type="text" class="search-input" placeholder="Search" />
         </div>
       </header>
-
-      <section class="table-wrapper">
+      <section class="table-container">
         <table>
           <thead>
             <tr>
@@ -48,23 +48,25 @@
   </div>
 
   <script>
+    const api = '/api/contacts';
+
     async function loadContacts() 
     {
-      const res = await fetch('/api/contacts');
-      const data = await res.json();
+      const res = await fetch(api);
+      const contacts = await res.json();
       const tbody = document.getElementById('contact-body');
       tbody.innerHTML = '';
 
-      data.forEach(contact => {
+      contacts.forEach(contact => {
         const row = document.createElement('tr');
         row.innerHTML = `
           <td>${contact.ContactId}</td>
           <td>${contact.Name}</td>
           <td>${contact.Email}</td>
           <td>${contact.Phone}</td>
-          <td>${contact.ContactType}</td>
-          <td><input type="checkbox" ${contact.PortalAccess ? 'checked' : ''} disabled /></td>
-          <td><input type="checkbox" ${contact.AdminAccess ? 'checked' : ''} disabled /></td>
+          <td>${contact.ContactType} <span class="edit-icon"></span></td>
+          <td><input type="checkbox" ${contact.PortalAccess ? 'checked' : ''} disabled></td>
+          <td><input type="checkbox" ${contact.AdminAccess ? 'checked' : ''} disabled></td>
           <td><button class="portal-btn">View Portal</button></td>
         `;
         tbody.appendChild(row);
