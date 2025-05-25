@@ -17,7 +17,6 @@ let contacts = [
     PortalAccess: true,
     AdminAccess: true
   },
-  
   {
     ContactId: "gbh654dtu6754",
     Name: "Dora Flores",
@@ -27,7 +26,6 @@ let contacts = [
     PortalAccess: true,
     AdminAccess: false
   },
-  
   {
     ContactId: "gbh654dtu6754",
     Name: "Dora Flores",
@@ -37,7 +35,6 @@ let contacts = [
     PortalAccess: false,
     AdminAccess: false
   },
-  
   {
     ContactId: "gbh654dtu6754",
     Name: "Dora Flores",
@@ -47,7 +44,6 @@ let contacts = [
     PortalAccess: true,
     AdminAccess: false
   },
-  
   {
     ContactId: "gbh654dtu6754",
     Name: "Dora Flores",
