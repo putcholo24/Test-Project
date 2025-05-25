@@ -1,41 +1,95 @@
 const express = require('express');
-const fs = require('fs');
+const path = require('path');
+
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-let contacts = 
-  [
-  { id: 1, name: "John Doe", email: "john@example.com" },
-  { id: 2, name: "Jane Smith", email: "jane@example.com" }
+let contacts = [
+  {
+    ContactId: "gbh654dtu6754",
+    Name: "Dora Flores",
+    Email: "dora@intent.do",
+    Phone: "0422 333 555",
+    ContactType: "Employee",
+    PortalAccess: true,
+    AdminAccess: true
+  },
+  
+  {
+    ContactId: "gbh654dtu6754",
+    Name: "Dora Flores",
+    Email: "dora@intent.do",
+    Phone: "0422 333 555",
+    ContactType: "Client",
+    PortalAccess: true,
+    AdminAccess: false
+  },
+  
+  {
+    ContactId: "gbh654dtu6754",
+    Name: "Dora Flores",
+    Email: "dora@intent.do",
+    Phone: "0422 333 555",
+    ContactType: "Lead",
+    PortalAccess: false,
+    AdminAccess: false
+  },
+  
+  {
+    ContactId: "gbh654dtu6754",
+    Name: "Dora Flores",
+    Email: "dora@intent.do",
+    Phone: "0422 333 555",
+    ContactType: "Partner",
+    PortalAccess: true,
+    AdminAccess: false
+  },
+  
+  {
+    ContactId: "gbh654dtu6754",
+    Name: "Dora Flores",
+    Email: "dora@intent.do",
+    Phone: "0422 333 555",
+    ContactType: "Investor",
+    PortalAccess: true,
+    AdminAccess: false
+  }
 ];
 
-app.get('/api/contacts', (req, res) => res.json(contacts));
+app.get('/api/contacts', (req, res) => {
+  res.json(contacts);
+});
 
 app.get('/api/contacts/:id', (req, res) => {
-  const contact = contacts.find(c => c.id == req.params.id);
-  if (!contact) return res.status(404).send("Contact not found");
+  const contact = contacts.find(c => c.ContactId === req.params.id);
+  if (!contact) return res.status(404).send("Contact not found.");
   res.json(contact);
 });
 
 app.post('/api/contacts', (req, res) => {
-  const newContact = { id: Date.now(), ...req.body };
+  const newContact = {
+    ContactId: `id${Date.now()}`,
+    ...req.body
+  };
   contacts.push(newContact);
   res.status(201).json(newContact);
 });
 
 app.put('/api/contacts/:id', (req, res) => {
-  const contact = contacts.find(c => c.id == req.params.id);
-  if (!contact) return res.status(404).send("Not found");
-  Object.assign(contact, req.body);
-  res.json(contact);
+  const index = contacts.findIndex(c => c.ContactId === req.params.id);
+  if (index === -1) return res.status(404).send("Contact not found.");
+  contacts[index] = { ...contacts[index], ...req.body };
+  res.json(contacts[index]);
 });
 
 app.delete('/api/contacts/:id', (req, res) => {
-  contacts = contacts.filter(c => c.id != req.params.id);
+  contacts = contacts.filter(c => c.ContactId !== req.params.id);
   res.status(204).send();
 });
 
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`);
+});
